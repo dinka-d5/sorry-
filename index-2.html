@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Кешірім</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: pink;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  #container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  h1 {
+    font-size: 40px;
+    margin: 0;
+  }
+
+  p {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  #buttons {
+    position: relative;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    justify-content: center;
+  }
+
+  button {
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  #yesBtn {
+    background: green;
+  }
+
+  #noBtn {
+    background: red;
+    position: relative;
+  }
+
+  #result {
+    font-size: 32px;
+    font-weight: bold;
+    color: #b3005e;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <h1>Саша кешірші 🥹❤️🙏🏻</h1>
+  <p id="question">кешіресің ба?</p>
+
+  <div id="buttons">
+    <button id="yesBtn" onclick="sayYes()">Ия</button>
+    <button id="noBtn" onclick="dodgeNo()">Жоқ</button>
+  </div>
+
+  <div id="result">Рахмет жаным 🫂❤️</div>
+</div>
+
+<script>
+  let scale = 1;
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+
+  function runAway() {
+    // кнопка "Жоқ" қашып кетеді - экран ішінде кездейсоқ жерге орналасады
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+  }
+
+  // тышқан жақындағанда қашады
+  noBtn.addEventListener('mouseenter', runAway);
+  // мобильді құрылғыда басу алдында да қашып кетуге тырысады
+  noBtn.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    runAway();
+  });
+
+  function dodgeNo() {
+    // егер басып үлгерсе де - "Жоқ" жұмыс істемейді, тек "Ия" үлкейе береді
+    scale += 0.3;
+    yesBtn.style.transform = "scale(" + scale + ")";
+    yesBtn.style.fontWeight = "bold";
+    runAway();
+  }
+
+  function sayYes() {
+    document.getElementById('question').style.display = 'none';
+    document.getElementById('buttons').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+    clearInterval(growInterval);
+  }
+
+  // "Ия" батырмасы уақыт өткен сайын өздігінен де үлкейе береді
+  const growInterval = setInterval(function() {
+    scale += 0.05;
+    yesBtn.style.transform = "scale(" + scale + ")";
+  }, 500);
+</script>
+
+</body>
+</html>
